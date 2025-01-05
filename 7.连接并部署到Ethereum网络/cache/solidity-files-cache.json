@@ -1,9 +1,9 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "E:\\代码\\block-chain-learn\\3.编写智能合约\\contracts\\Lock.sol": {
-      "lastModificationDate": 1735959782230,
-      "contentHash": "642fa52ab63153524e2438211810ea7e",
+    "E:\\代码\\block-chain-learn\\7.连接并部署到Ethereum网络\\contracts\\Lock.sol": {
+      "lastModificationDate": 1736048855032,
+      "contentHash": "7eee587c347fe6b1de50c96688cb9477",
       "sourceName": "contracts/Lock.sol",
       "solcConfig": {
         "version": "0.8.28",
@@ -37,10 +37,10 @@
         "Lock"
       ]
     },
-    "E:\\代码\\block-chain-learn\\3.编写智能合约\\contracts\\Shipping.sol": {
-      "lastModificationDate": 1735959782230,
-      "contentHash": "71cb5d806a183d2cf0fa98663584c7c5",
-      "sourceName": "contracts/Shipping.sol",
+    "E:\\代码\\block-chain-learn\\7.连接并部署到Ethereum网络\\contracts\\TodoList.sol": {
+      "lastModificationDate": 1736048967587,
+      "contentHash": "0085572f39544f0be465684de372bbc0",
+      "sourceName": "contracts/TodoList.sol",
       "solcConfig": {
         "version": "0.8.28",
         "settings": {
@@ -70,7 +70,7 @@
         "^0.8.28"
       ],
       "artifacts": [
-        "Shipping"
+        "TodoList"
       ]
     }
   }
