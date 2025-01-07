@@ -27,6 +27,7 @@ contract WETH {
     /*
         被indexed标记的参数在日志中会被作为索引字段，这意味着你可以用这些字段来进行筛选。
         比如，在区块链浏览器（如 Etherscan）或前端应用中，用户可以根据这些参数轻松查询到相关的事件。
+        每个事件最多只能有三个被indexed的参数，只有address类型、uint类型、bytes类型的参数可以被索引
     */
     event Approval(
         address indexed src,
