@@ -6,7 +6,7 @@ const Info = () => {
   const { data, error } = useBalance({ address });
   const { data: rccTokenData } = useBalance({
     address,
-    token: "0x169b0CBD28Eb4B086F5Cf58DDa0Ea3A25fadcA0b",
+    token: "0x6FCE5Dd421c88B7df4552E037362Bcea35Ae0AcB",
   });
   console.log(data, "balance");
   return (
