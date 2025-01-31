@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    const baseObject = { count: 0 };
+    const handler = {
+      set(target, property, value, receiver) {
+        console.log(`接收操作的对象是: ${JSON.stringify(receiver)}`);
+        console.log(`原始对象是: ${JSON.stringify(target)}`);
+        target[property] = value;
+        return true;
+      },
+    };
+    const proxy1 = new Proxy(baseObject, handler);
+    const derivedObject = Object.create(proxy1);
+    derivedObject.count = 1;
+  </script>
+</html>

@@ -1,14 +1,19 @@
 import { Suspense } from "react";
 
 export default function RootLayout({
-  children
+  children,
+  analytics,
+  team,
 }: Readonly<{
   children: React.ReactNode;
+  analytics: React.ReactNode;
+  team: React.ReactNode;
 }>) {
   return (
     <>
-      Dashboard
+      {analytics}
       {children}
+      {team}
     </>
   );
 }
