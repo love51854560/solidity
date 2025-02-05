@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { DeepMethodContext } from "./parent";
 
 interface SonProps {
   onDeepMethod: () => void;
 }
 
-const GrandSon = ({ onDeepMethod }: SonProps) => {
+const GrandSon = memo(({ onDeepMethod }: SonProps) => {
   const deepMethod = () => {
     console.log("深层子组件的方法被执行了");
     onDeepMethod();
@@ -31,6 +31,6 @@ const GrandSon = ({ onDeepMethod }: SonProps) => {
       <button onClick={deepMethod3}>触发深层方法3</button>
     </>
   );
-};
+});
 
 export default GrandSon;
