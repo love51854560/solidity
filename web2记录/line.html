@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Dragging Example</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .draggable {
+      width: 100px;
+      height: 100px;
+      background-color: #3498db;
+      border-radius: 8px;
+      position: absolute;
+      cursor: pointer;
+    }
+
+    .draggable2 {
+      width: 100px;
+      height: 100px;
+      background-color: #e74c3c;
+      border-radius: 8px;
+      position: absolute;
+      cursor: pointer;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none; /* To ensure canvas does not interfere with drag */
+    }
+  </style>
+</head>
+<body>
+  <!-- Two draggable DOM elements -->
+  <div class="draggable" id="drag1" draggable="true"></div>
+  <div class="draggable2" id="drag2" draggable="true"></div>
+
+  <!-- Canvas element to draw the line -->
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const drag1 = document.getElementById('drag1');
+    const drag2 = document.getElementById('drag2');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Resize the canvas to fit the window
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    // Make the element draggable by setting the drag event listeners
+    drag1.addEventListener('dragstart', (e) => {
+      offsetX = e.clientX - drag1.getBoundingClientRect().left;
+      offsetY = e.clientY - drag1.getBoundingClientRect().top;
+    });
+
+    drag2.addEventListener('dragstart', (e) => {
+      offsetX = e.clientX - drag2.getBoundingClientRect().left;
+      offsetY = e.clientY - drag2.getBoundingClientRect().top;
+    });
+
+    // Move element when dragging
+    drag1.addEventListener('drag', (e) => {
+      if (e.clientX && e.clientY) {
+        drag1.style.left = `${e.clientX - offsetX}px`;
+        drag1.style.top = `${e.clientY - offsetY}px`;
+        updateLine();
+      }
+    });
+
+    drag2.addEventListener('drag', (e) => {
+      if (e.clientX && e.clientY) {
+        drag2.style.left = `${e.clientX - offsetX}px`;
+        drag2.style.top = `${e.clientY - offsetY}px`;
+        updateLine();
+      }
+    });
+
+    // Update line coordinates based on the position of the two elements
+    function updateLine() {
+      const rect1 = drag1.getBoundingClientRect();
+      const rect2 = drag2.getBoundingClientRect();
+
+      const x1 = rect1.left + rect1.width / 2;
+      const y1 = rect1.top + rect1.height / 2;
+      const x2 = rect2.left + rect2.width / 2;
+      const y2 = rect2.top + rect2.height / 2;
+
+      // Clear the previous line
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw the line between the two elements
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    // Initial canvas size and line position update
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    updateLine();
+  </script>
+</body>
+</html>

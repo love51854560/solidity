@@ -19,5 +19,30 @@
     const proxy1 = new Proxy(baseObject, handler);
     const derivedObject = Object.create(proxy1);
     derivedObject.count = 1;
+
+    //拦截数组
+    let array = [1, 2, 3];
+    let proxyArray = new Proxy(array, {
+      get(target, property, value) {
+        if (typeof target[property] === "function") {
+          // 判断是否是数组方法并进行拦截
+          if (property === "push") {
+            console.log("正在调用 push 方法");
+          }
+        }
+        console.log(`正在读取数组元素${property}`);
+        return target[property];
+      },
+      set(target, property, value, receiver) {
+        if (value < 0) {
+          throw new Error("数组元素不能小于0");
+        }
+        target[property] = value;
+        return true;
+      },
+    });
+    // let element = proxyArray[1];
+    // proxyArray[0] = 2;
+    proxyArray.push(2);
   </script>
 </html>

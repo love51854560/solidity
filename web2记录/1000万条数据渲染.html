@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+  </head>
+  <body>
+    <p id="result"></p>
+
+    <p id="result2"></p>
+
+    <script>
+      const $result = document.getElementById("result");
+      const $result2 = document.getElementById("result2");
+
+      const bigArray = Array.from({ length: 1000000 }, (_, i) => i + 1);
+      const bigArray2 = Array.from({ length: 1000000 }, (_, i) => i + 1);
+
+      /* ==============================  长任务 - Start ============================== */
+
+      // 定义一个处理函数，例如对数组中的每个元素进行平方操作
+      function processChunk(chunk) {
+        return `chunk: ${chunk}`;
+      }
+
+      // for (const item in bigArray) {
+      //   $result.innerText = processChunk(item);
+      // }
+      /* ==============================  长任务 - End   ============================== */
+
+      /* ==============================  长任务-requestAnimationFrame优化 - Start ============================== */
+      // 动态调整 chunkSize 的优化方式
+      let chunkSize = 1000; // 初始的 chunkSize
+      let index = 0;
+      function processArrayWithDynamicChunkSize() {
+        function processChunkWithRAF() {
+          let startTime = performance.now(); // 记录结束时间
+          for (let i = 0; i < chunkSize; i++) {
+            if (index < bigArray2.length) {
+              const result = processChunk(bigArray2[index]); // 对每个元素执行处理函数
+              $result2.innerText = result;
+              index++;
+            }
+          }
+          let endTime = performance.now();
+          let timeTaken = endTime - startTime; // 计算处理时间
+
+          // 根据处理时间动态调整 chunkSize
+          if (timeTaken > 16) {
+            // 如果处理时间超过一帧的时间（16毫秒），则减小 chunkSize
+            chunkSize = Math.floor(chunkSize * 0.9); // 减小10%
+          } else if (timeTaken < 16) {
+            // 如果处理时间远小于一帧的时间（8毫秒），则增加 chunkSize
+            chunkSize = Math.floor(chunkSize * 1.1); // 增加10%
+          }
+
+          if (index < bigArray2.length) {
+            requestAnimationFrame(processChunkWithRAF); // 继续处理下一个小块
+          }
+        }
+
+        requestAnimationFrame(processChunkWithRAF); // 开始处理大数组
+      }
+
+      processArrayWithDynamicChunkSize();
+      /* ==============================  长任务-requestAnimationFrame优化 - Start ============================== */
+    </script>
+  </body>
+</html>

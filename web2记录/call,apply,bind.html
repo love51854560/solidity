@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    //func.call(thisArg, arg1, arg2, ...)
+    Function.prototype.myCall = function (thisArg, ...args) {
+      // 将this绑定到指定对象
+      thisArg = thisArg || globalThis;
+      const uniqueId = Symbol();
+      // this指向原始方法
+      thisArg[uniqueId] = this;
+      const result = thisArg[uniqueId](...args);
+      delete thisArg[uniqueId];
+      return result;
+    };
+    //func.apply(thisArg, [argsArray])
+    Function.prototype.myApply = function (thisArg, args) {
+      // 将this绑定到指定对象
+      thisArg = thisArg || globalThis;
+      const uniqueId = Symbol();
+      thisArg[uniqueId] = this;
+      const result = thisArg[uniqueId](...args);
+      delete thisArg[uniqueId];
+      return result;
+    };
+    //let boundFunc = func.bind(thisArg, arg1, arg2, ...)
+    Function.prototype.myBind = function (thisArg, ...args) {
+      //闭包保留原始方法
+      const originalFunc = this;
+      return function (...newArgs) {
+        //调用新函数时，执行原始函数并传递this和参数
+        return originalFunc.apply(thisArg, [...args, ...newArgs]);
+      };
+    };
+  </script>
+</html>
