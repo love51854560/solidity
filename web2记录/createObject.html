@@ -1,51 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body>
-<script>
-  // 创建一个禁止修改的对象，只能通过指定方法去修改属性
-function createObject(initialData) {
-  const data = initialData;
-  return new Proxy(data, {
-    set(target, property, value, receiver) {
-      if (property === "set") {
-        const keys = property.split(".");
-        let obj = target;
-        for (let i = 0; i < keys.length - 1; i++) {
-          obj = obj[keys[i]] || (obj[keys[i]] = {});
-        }
-        obj[keys[keys.length - 1]] = value;
-        return true;
-      } else {
-        return false;
-      }
-    },
-    get(target, property, receiver) {
-      console.log('get',target, property, receiver);
-      if (property === "set") {
-        return function (key, value) {
-          console.log('key',key);
-          const keys = key.split(".");
-          let obj = target;
-          for (let i = 0; i < keys.length - 1; i++) {
-            obj = obj[keys[i]] || (obj[keys[i]] = {});
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // 创建一个禁止修改的对象，只能通过指定方法去修改属性
+    function createObject(initialData) {
+      const data = initialData;
+      return new Proxy(data, {
+        set(target, property, value, receiver) {
+          if (property === "set") {
+            const keys = property.split(".");
+            let obj = target;
+            for (let i = 0; i < keys.length - 1; i++) {
+              obj = obj[keys[i]] || (obj[keys[i]] = {});
+            }
+            obj[keys[keys.length - 1]] = value;
+            return true;
+          } else {
+            return false;
           }
-          obj[keys[keys.length - 1]] = value;
-        };
-      } else {
-        return target[property];
-      }
-    },
-  });
-}
-let obj = createObject({name:111,age:222})
-obj.set("name","333");
-obj.name = "333"
-</script>
+        },
+        get(target, property, receiver) {
+          console.log("get", target, property, receiver);
+          if (property === "set") {
+            return function (key, value) {
+              console.log("key", key);
+              const keys = key.split(".");
+              let obj = target;
+              for (let i = 0; i < keys.length - 1; i++) {
+                obj = obj[keys[i]] || (obj[keys[i]] = {});
+              }
+              obj[keys[keys.length - 1]] = value;
+            };
+          } else {
+            return target[property];
+          }
+        },
+      });
+    }
+    let obj = createObject({ name: 111, age: 222 });
+    obj.set("name", "333");
+    obj.name = "333";
+  </script>
 </html>

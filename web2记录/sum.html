@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    function sum(...args) {
+      let total = args.reduce((pre, cur) => {
+        return pre + cur;
+      }, 0);
+      return function innerSum(...newArgs) {
+        if (newArgs.length === 0) {
+          return total;
+        } else {
+          total += newArgs.reduce((pre, cur) => {
+            return pre + cur;
+          }, 0);
+          return innerSum;
+        }
+      };
+    }
+    console.log(sum(1)(2)(3, 4)(5, 6, 7)()); // 输出: 28
+  </script>
+</html>
